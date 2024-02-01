@@ -1,4 +1,4 @@
-/*package com.exercises.library;
+package com.exercises.library;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,4 +18,3 @@ public class WebSecurity {
         return http.build();
     }
 }
-*/

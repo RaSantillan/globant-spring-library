@@ -12,7 +12,7 @@ public class User {
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
-    private Role ADMIN;
+    private Role role;
 
     public User() {
     }
@@ -49,11 +49,11 @@ public class User {
         this.password = password;
     }
 
-    public Role getADMIN() {
-        return ADMIN;
+    public Role getRole() {
+        return role;
     }
 
-    public void setADMIN(Role ADMIN) {
-        this.ADMIN = ADMIN;
+    public void setRole(Role ADMIN) {
+        this.role = ADMIN;
     }
 }
