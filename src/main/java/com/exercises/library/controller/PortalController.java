@@ -1,9 +1,11 @@
 package com.exercises.library.controller;
 
+import com.exercises.library.entity.User;
 import com.exercises.library.exception.MyException;
 import com.exercises.library.repository.UserRepository;
 import com.exercises.library.service.UserService;
 import jakarta.persistence.Persistence;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -60,7 +62,11 @@ public class PortalController {
 
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @GetMapping("/inicio")
-    public String inicio() {
+    public String inicio(HttpSession session) {
+        User logged = (User) session.getAttribute("usuariosession");
+        if (logged.getRole().toString().equals("ADMIN")) {
+            return "redirect:/admin/dashboard";
+        }
         return "inicio.html";
     }
 }
