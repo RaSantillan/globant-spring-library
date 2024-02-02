@@ -23,7 +23,7 @@ public class AuthorController {
         return "autor_form.html";
     }
 
-    @PostMapping("/registro")
+    @PostMapping("/registro/")
     public String registro(@RequestParam String nombre, ModelMap modelMap) {
         try {
             authorService.createAuthor(nombre);
