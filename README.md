@@ -1,5 +1,5 @@
 # Library Project
-##Description
+## Description
 The Library is a web-based application built using Java, Spring MVC, Spring Security, and Spring Boot to efficiently manage and organize a library's resources. The project incorporates HTML, CSS, and JavaScript for the front-end development, creating a user-friendly interface.
 ## Version
 V1 -> Base Structure to manage resources: Entities, Repositories, Services, Controllers<br>
