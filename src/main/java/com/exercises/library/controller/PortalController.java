@@ -54,6 +54,7 @@ public class PortalController {
 
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, ModelMap modelMap) {
+
         if (error!=null) {
             modelMap.put("error", "Usuario o Contrasena invalido");
         }
