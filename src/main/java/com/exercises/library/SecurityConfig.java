@@ -36,7 +36,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authz -> {
-                    authz.requestMatchers("/css/**","/js/**","/img/**","/").permitAll();
+                    authz.requestMatchers(
+                            "/css/**","/js/**","/img/**","/","/registrar").permitAll();
                     //We can give rights to admin class with pre-authorize but this is another approach.
                     authz.requestMatchers("/admin/*").hasRole("ADMIN");
                     authz.anyRequest().authenticated();
