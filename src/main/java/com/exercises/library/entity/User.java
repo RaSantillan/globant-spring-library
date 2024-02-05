@@ -13,6 +13,8 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToOne
+    private Image image;
 
     public User() {
     }
@@ -55,5 +57,13 @@ public class User {
 
     public void setRole(Role ADMIN) {
         this.role = ADMIN;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }
