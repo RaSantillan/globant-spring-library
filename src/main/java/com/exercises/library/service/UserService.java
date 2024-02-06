@@ -1,5 +1,6 @@
 package com.exercises.library.service;
 
+import com.exercises.library.entity.Author;
 import com.exercises.library.entity.Image;
 import com.exercises.library.entity.User;
 import com.exercises.library.enumeration.Role;
@@ -116,5 +117,10 @@ public class UserService implements UserDetailsService {
         } else {
             return null;
         }
+    }
+
+    public User getUserById(String id) {
+        Optional<User> userResponse = userRepository.findById(id);
+        return userResponse.get();
     }
 }
