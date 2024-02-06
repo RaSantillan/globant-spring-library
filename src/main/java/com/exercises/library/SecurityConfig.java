@@ -37,7 +37,8 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(authz -> {
                     authz.requestMatchers(
-                            "/css/**","/js/**","/img/**","/","/registrar").permitAll();
+                            "/css/**","/js/**","/img/**","/","/registrar","/registro"
+                    ).permitAll();
                     //We can give rights to admin class with pre-authorize but this is another approach.
                     authz.requestMatchers("/admin/*").hasRole("ADMIN");
                     authz.anyRequest().authenticated();
