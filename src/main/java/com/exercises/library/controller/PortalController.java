@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -70,5 +67,30 @@ public class PortalController {
             return "redirect:/admin/dashboard";
         }
         return "inicio.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @GetMapping("/perfil")
+    public String perfil(HttpSession session, ModelMap modelMap) {
+        User user = (User) session.getAttribute("usuariosession");
+        modelMap.put("usuario", user);
+        return "usuario_modificar.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @PostMapping("/perfil/{id}")
+    public String actualizar(
+            @PathVariable String id, @RequestParam String nombre, @RequestParam String email, String password,
+            String password2, ModelMap modelMap, MultipartFile file) {
+        try {
+            userService.update(id, nombre, email, password, password2, file);
+            modelMap.put("exito", "Usuario actualizado correctamente");
+            return "inicio.html";
+        } catch (MyException e) {
+            modelMap.put("error", e.getMessage());
+            modelMap.put("nombre", nombre);
+            modelMap.put("email", email);
+            return "usuario_modificar.html";
+        }
     }
 }
