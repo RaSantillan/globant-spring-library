@@ -80,8 +80,9 @@ public class PortalController {
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @PostMapping("/perfil/{id}")
     public String actualizar(
-            @PathVariable String id, @RequestParam String nombre, @RequestParam String email, String password,
-            String password2, ModelMap modelMap, MultipartFile file) {
+            @PathVariable String id, @RequestParam String nombre, @RequestParam String email,
+            @RequestParam String password, @RequestParam String password2,
+            ModelMap modelMap, MultipartFile file) {
         try {
             userService.update(id, nombre, email, password, password2, file);
             modelMap.put("exito", "Usuario actualizado correctamente");
