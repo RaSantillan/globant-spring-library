@@ -82,24 +82,6 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    private void validar(String nombre, String email, String password, String password2) throws MyException {
-
-        if (nombre.isEmpty() || nombre == null) {
-            throw new MyException("el nombre no puede ser nulo o estar vacío");
-        }
-        if (email.isEmpty() || email == null) {
-            throw new MyException("el email no puede ser nulo o estar vacio");
-        }
-        if (password.isEmpty() || password == null || password.length() <= 5) {
-            throw new MyException("La contraseña no puede estar vacía, y debe tener más de 5 dígitos");
-        }
-
-        if (!password.equals(password2)) {
-            throw new MyException("Las contraseñas ingresadas deben ser iguales");
-        }
-
-    }
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.searchByEmail(email);
@@ -122,5 +104,43 @@ public class UserService implements UserDetailsService {
     public User getUserById(String id) {
         Optional<User> userResponse = userRepository.findById(id);
         return userResponse.get();
+    }
+
+    @Transactional(readOnly=true)
+    public List<User> listarUsuarios() {
+        List<User> users = new ArrayList();
+        return userRepository.findAll();
+    }
+
+    @Transactional
+    public void cambiarRol(String id){
+        Optional<User> response = userRepository.findById(id);
+
+        if(response.isPresent()) {
+            User user = response.get();
+            if(user.getRole().equals(Role.USER)) {
+                user.setRole(Role.ADMIN);
+            }else if(user.getRole().equals(Role.ADMIN)) {
+                user.setRole(Role.USER);
+            }
+        }
+    }
+
+    private void validar(String nombre, String email, String password, String password2) throws MyException {
+
+        if (nombre.isEmpty() || nombre == null) {
+            throw new MyException("el nombre no puede ser nulo o estar vacío");
+        }
+        if (email.isEmpty() || email == null) {
+            throw new MyException("el email no puede ser nulo o estar vacio");
+        }
+        if (password.isEmpty() || password == null || password.length() <= 5) {
+            throw new MyException("La contraseña no puede estar vacía, y debe tener más de 5 dígitos");
+        }
+
+        if (!password.equals(password2)) {
+            throw new MyException("Las contraseñas ingresadas deben ser iguales");
+        }
+
     }
 }
