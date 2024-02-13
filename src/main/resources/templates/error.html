@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-    <head th:replace= "/fragments/head :: head" </head>
+    <head th:replace= "~{/fragments/head :: head}" </head>
 
     <body>
         <nav class="navbar navbar-expand-lg navBar">
@@ -46,7 +46,7 @@
 			</div>
 		</section>
                 <div class="container contenedorLibros">
-                    <p class="tituloLibros" th:if="${session.usuariosession != null}" th:text=" 'Hola de vuelta '+ ${session.usuariosession.nombre} "></p>
+                    <p class="tituloLibros" th:if="${session.usuariosession != null}" th:text=" 'Hola de vuelta '+ ${session.usuariosession.name} "></p>
                    
                 </div>
                 <div class="bg-circle-1 bg-circle"></div>
