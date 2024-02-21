@@ -2,7 +2,7 @@ package com.exercises.library.controller;
 
 import com.exercises.library.entity.Author;
 import com.exercises.library.exception.MyException;
-import com.exercises.library.service.AuthorService;
+import com.exercises.library.service.AuthorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 @RequestMapping("/autor")
 public class AuthorController {
     @Autowired
-    AuthorService authorService;
+    AuthorServiceImpl authorServiceImpl;
 
     @GetMapping("/registrar")
     public String register() {
@@ -26,7 +26,7 @@ public class AuthorController {
     @PostMapping("/registro/")
     public String registro(@RequestParam String nombre, ModelMap modelMap) {
         try {
-            authorService.createAuthor(nombre);
+            authorServiceImpl.createAuthor(nombre);
             System.out.println(nombre);
             modelMap.put("exito", "Author has been created");
         } catch (MyException e) {
@@ -39,21 +39,21 @@ public class AuthorController {
 
     @GetMapping("/lista")
     public String lista(ModelMap modelMap) {
-        List<Author> autores = authorService.getAuthors();
+        List<Author> autores = authorServiceImpl.getAuthors();
         modelMap.addAttribute("autores", autores);
         return "autor_list.html";
     }
 
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelMap) {
-        modelMap.put("autor", authorService.getAuthorById(id));
+        modelMap.put("autor", authorServiceImpl.getAuthorById(id));
         return "autor_modificar.html";
     }
 
     @PostMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, String nombre, ModelMap modelMap) {
         try {
-            authorService.updateAuthor(id, nombre);
+            authorServiceImpl.updateAuthor(id, nombre);
             return  "redirect:../lista";
         } catch (Exception e) {
             modelMap.put("error", e.getMessage());

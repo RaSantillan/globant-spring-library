@@ -1,9 +1,7 @@
 package com.exercises.library.controller;
 
-import com.exercises.library.entity.Author;
 import com.exercises.library.entity.Editorial;
 import com.exercises.library.exception.MyException;
-import com.exercises.library.service.AuthorService;
 import com.exercises.library.service.EditorialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
