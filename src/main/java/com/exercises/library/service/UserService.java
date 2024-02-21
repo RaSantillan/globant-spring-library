@@ -1,6 +1,5 @@
 package com.exercises.library.service;
 
-import com.exercises.library.entity.Author;
 import com.exercises.library.entity.Image;
 import com.exercises.library.entity.User;
 import com.exercises.library.enumeration.Role;
@@ -27,12 +26,12 @@ import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
-    private final ImageService imageService;
+    private final ImageServiceImpl imageServiceImpl;
 
     @Autowired
-    public UserService(UserRepository userRepository, ImageService imageService) {
+    public UserService(UserRepository userRepository, ImageServiceImpl imageServiceImpl) {
         this.userRepository = userRepository;
-        this.imageService = imageService;
+        this.imageServiceImpl = imageServiceImpl;
     }
 
     @Transactional
@@ -45,7 +44,7 @@ public class UserService implements UserDetailsService {
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setRole(Role.USER);
 
-        Image image = imageService.save(file);
+        Image image = imageServiceImpl.save(file);
         user.setImage(image);
 
         userRepository.save(user);
@@ -74,7 +73,7 @@ public class UserService implements UserDetailsService {
                 idImage = usuario.getImage().getId();
             }
 
-            Image image = imageService.update(file, idImage);
+            Image image = imageServiceImpl.update(file, idImage);
 
             usuario.setImage(image);
 
