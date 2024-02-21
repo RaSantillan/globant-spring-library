@@ -4,9 +4,9 @@ import com.exercises.library.entity.Author;
 import com.exercises.library.entity.Book;
 import com.exercises.library.entity.Editorial;
 import com.exercises.library.exception.MyException;
-import com.exercises.library.service.AuthorService;
-import com.exercises.library.service.BookService;
-import com.exercises.library.service.EditorialService;
+import com.exercises.library.service.AuthorServiceImpl;
+import com.exercises.library.service.BookServiceImpl;
+import com.exercises.library.service.EditorialServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,16 +23,16 @@ import java.util.logging.Logger;
 @RequestMapping("/libro")
 public class BookController {
     @Autowired
-    BookService bookService;
+    BookServiceImpl bookServiceImpl;
     @Autowired
-    AuthorService authorService;
+    AuthorServiceImpl authorServiceImpl;
     @Autowired
-    EditorialService editorialService;
+    EditorialServiceImpl editorialServiceImpl;
 
     @GetMapping("/registrar")
     public String registrar(ModelMap modelMap) {
-        List<Author> authors = authorService.getAuthors();
-        List<Editorial> editorials = editorialService.getEditorials();
+        List<Author> authors = authorServiceImpl.getAuthors();
+        List<Editorial> editorials = editorialServiceImpl.getEditorials();
 
         modelMap.addAttribute("autores", authors);
         modelMap.addAttribute("editoriales", editorials);
@@ -46,7 +46,7 @@ public class BookController {
                            @RequestParam String idAutor, @RequestParam String idEditorial,
                            ModelMap modelMap) {
         try {
-            bookService.createBook(isbn, titulo, ejemplares, idAutor, idEditorial);
+            bookServiceImpl.createBook(isbn, titulo, ejemplares, idAutor, idEditorial);
             modelMap.put("exito", "The book was successfully created");
         } catch (MyException e) {
             Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, e);
@@ -58,7 +58,7 @@ public class BookController {
 
     @GetMapping("/lista")
     public String lista(ModelMap modelMap) {
-        List<Book> libros = bookService.getBooks();
+        List<Book> libros = bookServiceImpl.getBooks();
         modelMap.addAttribute("libros", libros);
         return "libro_list.html";
     }

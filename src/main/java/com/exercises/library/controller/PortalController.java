@@ -2,9 +2,7 @@ package com.exercises.library.controller;
 
 import com.exercises.library.entity.User;
 import com.exercises.library.exception.MyException;
-import com.exercises.library.repository.UserRepository;
-import com.exercises.library.service.UserService;
-import jakarta.persistence.Persistence;
+import com.exercises.library.service.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,11 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/")
 public class PortalController {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @Autowired
-    public PortalController(UserService userService) {
-        this.userService = userService;
+    public PortalController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping("/")
@@ -37,7 +35,7 @@ public class PortalController {
     public String registro(@RequestParam String nombre, @RequestParam String email, @RequestParam String password,
                            @RequestParam String password2, @RequestParam MultipartFile file, ModelMap modelMap) {
         try {
-            userService.registrar(nombre,email,password,password2, file);
+            userServiceImpl.registrar(nombre,email,password,password2, file);
             modelMap.put("exito", "Usuario registrado correctamente");
             return "index.html";
         } catch (MyException e) {
@@ -84,7 +82,7 @@ public class PortalController {
             @RequestParam String password, @RequestParam String password2,
             ModelMap modelMap, MultipartFile file) {
         try {
-            userService.update(id, nombre, email, password, password2, file);
+            userServiceImpl.update(id, nombre, email, password, password2, file);
             modelMap.put("exito", "Usuario actualizado correctamente");
             return "inicio.html";
         } catch (MyException e) {

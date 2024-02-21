@@ -1,10 +1,8 @@
 package com.exercises.library.controller;
 
-import com.exercises.library.entity.Author;
 import com.exercises.library.entity.Editorial;
 import com.exercises.library.exception.MyException;
-import com.exercises.library.service.AuthorService;
-import com.exercises.library.service.EditorialService;
+import com.exercises.library.service.EditorialServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,7 +19,7 @@ import java.util.logging.Logger;
 @RequestMapping("/editorial")
 public class EditorialController {
     @Autowired
-    EditorialService editorialService;
+    EditorialServiceImpl editorialServiceImpl;
 
     @GetMapping("/registrar")
     public String register() {
@@ -31,7 +29,7 @@ public class EditorialController {
     @PostMapping("/registro/")
     public String registro(@RequestParam String nombre, ModelMap modelMap) {
         try {
-            editorialService.createEditorial(nombre);
+            editorialServiceImpl.createEditorial(nombre);
             System.out.println(nombre);
             modelMap.put("exito", "Editorial has been created");
         } catch (MyException e) {
@@ -44,7 +42,7 @@ public class EditorialController {
 
     @GetMapping("/lista")
     public String lista(ModelMap modelMap) {
-        List<Editorial> editoriales = editorialService.getEditorials();
+        List<Editorial> editoriales = editorialServiceImpl.getEditorials();
         modelMap.addAttribute("editoriales", editoriales);
         return "editorial_list.html";
     }
