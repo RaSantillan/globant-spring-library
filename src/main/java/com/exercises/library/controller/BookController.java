@@ -6,7 +6,7 @@ import com.exercises.library.entity.Editorial;
 import com.exercises.library.exception.MyException;
 import com.exercises.library.service.AuthorServiceImpl;
 import com.exercises.library.service.BookServiceImpl;
-import com.exercises.library.service.EditorialService;
+import com.exercises.library.service.EditorialServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,12 +27,12 @@ public class BookController {
     @Autowired
     AuthorServiceImpl authorServiceImpl;
     @Autowired
-    EditorialService editorialService;
+    EditorialServiceImpl editorialServiceImpl;
 
     @GetMapping("/registrar")
     public String registrar(ModelMap modelMap) {
         List<Author> authors = authorServiceImpl.getAuthors();
-        List<Editorial> editorials = editorialService.getEditorials();
+        List<Editorial> editorials = editorialServiceImpl.getEditorials();
 
         modelMap.addAttribute("autores", authors);
         modelMap.addAttribute("editoriales", editorials);
