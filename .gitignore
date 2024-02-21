@@ -96,3 +96,5 @@ test-output
 atlassian-ide-plugin.xml
 
 cached-antora-playbook.yml
+# Planned Features
+**/plannedFeatures.txt
