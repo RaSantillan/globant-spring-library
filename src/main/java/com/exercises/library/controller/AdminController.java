@@ -1,9 +1,8 @@
 package com.exercises.library.controller;
 
 import com.exercises.library.entity.User;
-import com.exercises.library.service.UserService;
+import com.exercises.library.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +14,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @Autowired
-    public AdminController(UserService userService) {
-        this.userService = userService;
+    public AdminController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping("/dashboard")
@@ -29,7 +28,7 @@ public class AdminController {
 
     @GetMapping("/usuarios")
     public String listar(ModelMap modelo) {
-        List<User> users = userService.listarUsuarios();
+        List<User> users = userServiceImpl.listarUsuarios();
         modelo.addAttribute("usuarios", users);
 
         return "usuario_list";
@@ -37,7 +36,7 @@ public class AdminController {
 
     @GetMapping("/modificarRol/{id}")
     public String cambiarRol(@PathVariable String id){
-        userService.cambiarRol(id);
+        userServiceImpl.cambiarRol(id);
 
         return "redirect:/admin/usuarios";
     }
