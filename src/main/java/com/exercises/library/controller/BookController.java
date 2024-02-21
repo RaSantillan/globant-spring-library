@@ -5,7 +5,7 @@ import com.exercises.library.entity.Book;
 import com.exercises.library.entity.Editorial;
 import com.exercises.library.exception.MyException;
 import com.exercises.library.service.AuthorServiceImpl;
-import com.exercises.library.service.BookService;
+import com.exercises.library.service.BookServiceImpl;
 import com.exercises.library.service.EditorialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 @RequestMapping("/libro")
 public class BookController {
     @Autowired
-    BookService bookService;
+    BookServiceImpl bookServiceImpl;
     @Autowired
     AuthorServiceImpl authorServiceImpl;
     @Autowired
@@ -46,7 +46,7 @@ public class BookController {
                            @RequestParam String idAutor, @RequestParam String idEditorial,
                            ModelMap modelMap) {
         try {
-            bookService.createBook(isbn, titulo, ejemplares, idAutor, idEditorial);
+            bookServiceImpl.createBook(isbn, titulo, ejemplares, idAutor, idEditorial);
             modelMap.put("exito", "The book was successfully created");
         } catch (MyException e) {
             Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, null, e);
@@ -58,7 +58,7 @@ public class BookController {
 
     @GetMapping("/lista")
     public String lista(ModelMap modelMap) {
-        List<Book> libros = bookService.getBooks();
+        List<Book> libros = bookServiceImpl.getBooks();
         modelMap.addAttribute("libros", libros);
         return "libro_list.html";
     }
