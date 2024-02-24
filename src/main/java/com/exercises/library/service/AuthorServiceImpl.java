@@ -42,6 +42,11 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public Author getAuthorById(String id) {
+        return authorRepository.findById(id).orElseThrow();
+    }
+
+    @Override
     @Transactional
     public void updateAuthor(String id, String name) {
         Optional<Author> authorResponse = authorRepository.findById(id);
@@ -52,15 +57,9 @@ public class AuthorServiceImpl implements AuthorService {
         }
     }
 
-    @Override
-    public Author getAuthorById(String id) {
-        Optional<Author> authorResponse = authorRepository.findById(id);
-        return authorResponse.get();
-    }
-
     private void validateAuthorParam(String name) throws MyException {
         if (name.isEmpty()) {
-            throw new MyException("Author Name cannot be null");
+            throw new MyException("Author name cannot be null");
         }
     }
 }
