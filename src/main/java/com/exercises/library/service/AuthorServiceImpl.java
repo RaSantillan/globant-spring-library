@@ -14,15 +14,11 @@ import java.util.Optional;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
-    private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
-    private final EditorialRepository editorialRepository;
 
     @Autowired
     public AuthorServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, EditorialRepository editorialRepository) {
-        this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
-        this.editorialRepository = editorialRepository;
     }
 
     @Override
