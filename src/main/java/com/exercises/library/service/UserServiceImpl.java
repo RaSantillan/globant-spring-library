@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setRole(Role.USER);
 
-        Image image = imageServiceImpl.save(file);
+        Image image = imageServiceImpl.create(file);
         user.setImage(image);
 
         userRepository.save(user);
