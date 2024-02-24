@@ -59,11 +59,7 @@ public class PortalController {
 
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @GetMapping("/inicio")
-    public String inicio(HttpSession session) {
-        User logged = (User) session.getAttribute("usuariosession");
-        if (logged.getRole().toString().equals("ADMIN")) {
-            return "redirect:/admin/dashboard";
-        }
+    public String inicio() {
         return "inicio.html";
     }
 

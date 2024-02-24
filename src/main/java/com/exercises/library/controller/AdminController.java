@@ -21,10 +21,6 @@ public class AdminController {
         this.userServiceImpl = userServiceImpl;
     }
 
-    @GetMapping("/dashboard")
-    public String panelAdministrativo() {
-        return "panel.html";
-    }
 
     @GetMapping("/usuarios")
     public String listar(ModelMap modelo) {
