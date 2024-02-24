@@ -37,7 +37,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @Transactional(readOnly = true)
-    public Author getAuthorById(String id) {
+    public Author getAuthor(String id) {
         return authorRepository.findById(id).orElseThrow();
     }
 
