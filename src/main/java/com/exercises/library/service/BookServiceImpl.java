@@ -38,8 +38,8 @@ public class BookServiceImpl implements BookService {
         book.setStock(stock);
         book.setRegisteredDate(new Date());
 
-        book.setAuthor(authorRepository.findById(authorId).get());
-        book.setEditorial(editorialRepository.findById(editorialId).get());
+        book.setAuthor(authorRepository.findById(authorId).orElseThrow());
+        book.setEditorial(editorialRepository.findById(editorialId).orElseThrow());
 
         bookRepository.save(book);
     }
@@ -58,8 +58,8 @@ public class BookServiceImpl implements BookService {
             Book book = bookResponse.get();
             book.setName(name);
             book.setStock(stock);
-            book.setAuthor(authorRepository.findById(authorId).get());
-            book.setEditorial(editorialRepository.findById(editorialId).get());
+            book.setAuthor(authorRepository.findById(authorId).orElseThrow());
+            book.setEditorial(editorialRepository.findById(editorialId).orElseThrow());
             bookRepository.save(book);
         }
 
