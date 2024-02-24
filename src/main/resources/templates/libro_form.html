@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="ISO-8859-1">
-        <title>Registro de Libros</title>
+        <title>Book Registry</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel="stylesheet" href="/css/formulario.css">
     </head>
@@ -17,19 +17,19 @@
                 
                 <div th:if="${error != null}" class="card text-white bg-danger mb-3 mensajeError" >
                     <div class="card-body">
-                        <h5 class="card-title">Error 👎</h5>
+                        <h5 class="card-title">Error</h5>
                         <p class="card-text" th:text="${error}"></p>
                     </div>
                 </div>
                 <div th:if="${exito != null}" class="card text-white bg-success mb-3 mt-3 mensajeExito" >
                     <div class="card-body">
-                        <h5 class="card-title">Exito!</h5>
+                        <h5 class="card-title">Sucess</h5>
                         <p class="card-text" th:text="${exito}"></p>
                     </div>
                 </div>
 
                 <div class="form-group my-3">
-                    <label class="mb-2">Cargar Libro</label> 
+                    <label class="mb-2">Fill out the Book information:</label>
                     <input type="number" class="form-control" name="isbn" placeholder="ISBN">
                 </div>
                 <div class="form-group my-3">
@@ -44,7 +44,7 @@
 
                     <select name="idAutor">
 
-                        <option>Seleccionar Autor</option>
+                        <option>Select Author</option>
 
                         <option th:each="autor : ${autores}"
                                 th:value="${autor.id}"
@@ -54,7 +54,7 @@
                 </div>
                 <div class="form-group my-3">
                     <select name="idEditorial">  
-                        <option>Seleccionar Editorial</option>
+                        <option>Select Editorial</option>
                         <option th:each="editorial : ${editoriales}"
                                 th:value="${editorial.id}" 
                                 th:text="${editorial.name}"
@@ -62,14 +62,14 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary mt-3 botones">Guardar</button>
+                <button type="submit" class="btn btn-primary mt-3 botones">Save</button>
             </form>
 
 
             <section class=" text-center container">
                 <div class="row mt-3">
                     <div class="divVolver">
-                        <a th:href="@{/}" class="btn btn-secondary my-2 botonVolver botones">Volver</a>
+                        <a th:href="@{/}" class="btn btn-secondary my-2 botonVolver botones">Back</a>
                     </div>
                 </div>
             </section>
