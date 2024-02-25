@@ -3,8 +3,6 @@ package com.exercises.library.service;
 import com.exercises.library.entity.Author;
 import com.exercises.library.exception.MyException;
 import com.exercises.library.repository.AuthorRepository;
-import com.exercises.library.repository.BookRepository;
-import com.exercises.library.repository.EditorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +15,7 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     @Autowired
-    public AuthorServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, EditorialRepository editorialRepository) {
+    public AuthorServiceImpl(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
     }
 
@@ -25,9 +23,9 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     public void createAuthor(String name) throws MyException {
         validateAuthorParam(name);
+
         Author author = new Author();
         author.setName(name);
-
         authorRepository.save(author);
     }
 
@@ -38,19 +36,17 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author getAuthorById(String id) {
+    @Transactional(readOnly = true)
+    public Author getAuthor(String id) {
         return authorRepository.findById(id).orElseThrow();
     }
 
     @Override
     @Transactional
     public void updateAuthor(String id, String name) {
-        Optional<Author> authorResponse = authorRepository.findById(id);
-        if (authorResponse.isPresent()) {
-            Author author = authorResponse.get();
-            author.setName(name);
-            authorRepository.save(author);
-        }
+        Author author = authorRepository.findById(id).orElseThrow();
+        author.setName(name);
+        authorRepository.save(author);
     }
 
     private void validateAuthorParam(String name) throws MyException {

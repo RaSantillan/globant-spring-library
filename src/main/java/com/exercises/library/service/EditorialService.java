@@ -8,5 +8,6 @@ import java.util.List;
 public interface EditorialService {
     void createEditorial(String name) throws MyException;
     List<Editorial> getEditorials();
+    Editorial getEditorial(String id);
     void updateEditorial(String id, String name);
 }

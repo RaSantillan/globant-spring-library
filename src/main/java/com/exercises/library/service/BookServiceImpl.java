@@ -2,28 +2,25 @@ package com.exercises.library.service;
 
 import com.exercises.library.entity.Book;
 import com.exercises.library.exception.MyException;
-import com.exercises.library.repository.AuthorRepository;
 import com.exercises.library.repository.BookRepository;
-import com.exercises.library.repository.EditorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.Optional;
 import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
-    private final AuthorRepository authorRepository;
-    private final EditorialRepository editorialRepository;
+    private final AuthorService authorService;
+    private final EditorialService editorialService;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository, EditorialRepository editorialRepository) {
+    public BookServiceImpl(BookRepository bookRepository, AuthorService authorService, EditorialService editorialService) {
         this.bookRepository = bookRepository;
-        this.authorRepository = authorRepository;
-        this.editorialRepository = editorialRepository;
+        this.authorService = authorService;
+        this.editorialService = editorialService;
     }
 
     @Override
@@ -38,8 +35,8 @@ public class BookServiceImpl implements BookService {
         book.setStock(stock);
         book.setRegisteredDate(new Date());
 
-        book.setAuthor(authorRepository.findById(authorId).orElseThrow());
-        book.setEditorial(editorialRepository.findById(editorialId).orElseThrow());
+        book.setAuthor(authorService.getAuthor(authorId));
+        book.setEditorial(editorialService.getEditorial(editorialId));
 
         bookRepository.save(book);
     }
@@ -51,18 +48,20 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Book getBook(Long isbn) {
+        return bookRepository.findById(isbn).orElseThrow();
+    }
+
+    @Override
     @Transactional
     public void updateBook(Long isbn, String name, Integer stock, String authorId, String editorialId) {
-        Optional<Book> bookResponse = bookRepository.findById(isbn);
-        if (bookResponse.isPresent()) {
-            Book book = bookResponse.get();
-            book.setName(name);
-            book.setStock(stock);
-            book.setAuthor(authorRepository.findById(authorId).orElseThrow());
-            book.setEditorial(editorialRepository.findById(editorialId).orElseThrow());
-            bookRepository.save(book);
-        }
-
+        Book book = this.getBook(isbn);
+        book.setName(name);
+        book.setStock(stock);
+        book.setAuthor(authorService.getAuthor(authorId));
+        book.setEditorial(editorialService.getEditorial(editorialId));
+        bookRepository.save(book);
     }
 
     private void validateBookParam(Long isbn, String name, Integer stock, String authorId, String editorialId)

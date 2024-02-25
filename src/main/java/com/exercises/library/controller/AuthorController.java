@@ -46,7 +46,7 @@ public class AuthorController {
 
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelMap) {
-        modelMap.put("autor", authorServiceImpl.getAuthorById(id));
+        modelMap.put("autor", authorServiceImpl.getAuthor(id));
         return "autor_modificar.html";
     }
 
