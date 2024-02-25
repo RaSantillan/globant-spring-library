@@ -58,29 +58,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     ) throws MyException {
         validar(name, email, password, password2);
 
-        Optional<User> response = userRepository.findById(id);
-        if (response.isPresent()) {
+        User usuario = userRepository.findById(id).orElseThrow();
+        usuario.setName(name);
+        usuario.setEmail(email);
+        usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 
-            User usuario = response.get();
-            usuario.setName(name);
-            usuario.setEmail(email);
-
-            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-
-            usuario.setRole(Role.USER);
-
-            String idImage = null;
-
-            if (usuario.getImage() != null) {
-                idImage = usuario.getImage().getId();
-            }
-
-            Image image = imageService.update(file, idImage);
-
-            usuario.setImage(image);
-
-            userRepository.save(usuario);
+        Image image;
+        if (usuario.getImage() != null) {
+            String idImage = usuario.getImage().getId();
+            image = imageService.update(file, idImage);
+        } else {
+            image = imageService.create(file);
         }
+        usuario.setImage(image);
+
+        userRepository.save(usuario);
     }
 
     @Override
