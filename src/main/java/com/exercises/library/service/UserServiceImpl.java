@@ -26,12 +26,12 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
-    private final ImageServiceImpl imageServiceImpl;
+    private final ImageService imageService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ImageServiceImpl imageServiceImpl) {
+    public UserServiceImpl(UserRepository userRepository, ImageServiceImpl imageService) {
         this.userRepository = userRepository;
-        this.imageServiceImpl = imageServiceImpl;
+        this.imageService = imageService;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setRole(Role.USER);
 
-        Image image = imageServiceImpl.create(file);
+        Image image = imageService.create(file);
         user.setImage(image);
 
         userRepository.save(user);
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 idImage = usuario.getImage().getId();
             }
 
-            Image image = imageServiceImpl.update(file, idImage);
+            Image image = imageService.update(file, idImage);
 
             usuario.setImage(image);
 
