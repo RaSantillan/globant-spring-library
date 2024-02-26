@@ -61,8 +61,8 @@
                 </ul>
             </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" th:if="${session.usuariosession != null}" href="#"
+            <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link dropdown-toggle" href="#"
                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Usuarios
                 </a>
@@ -91,15 +91,15 @@
             </li>
 
 
-            <li class="nav-item">
-                <a class="nav-link " th:if="${session.usuariosession == null}" href="/registrar" id="navbarDropdown"
+            <li class="nav-item" th:if="${session.usuariosession == null}">
+                <a class="nav-link " href="/registrar" id="navbarDropdown"
                    role="button" aria-expanded="false">
                     Register
                 </a>
 
             </li>
-            <li class="nav-item">
-                <a class="nav-link " th:if="${session.usuariosession == null}" href="/login" id="navbarDropdown"
+            <li class="nav-item" th:if="${session.usuariosession == null}">
+                <a class="nav-link " href="/login" id="navbarDropdown"
                    role="button" aria-expanded="false">
                     Login
                 </a>
