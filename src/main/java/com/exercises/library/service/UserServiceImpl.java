@@ -26,12 +26,12 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
-    private final ImageServiceImpl imageServiceImpl;
+    private final ImageService imageService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ImageServiceImpl imageServiceImpl) {
+    public UserServiceImpl(UserRepository userRepository, ImageServiceImpl imageService) {
         this.userRepository = userRepository;
-        this.imageServiceImpl = imageServiceImpl;
+        this.imageService = imageService;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setRole(Role.USER);
 
-        Image image = imageServiceImpl.create(file);
+        Image image = imageService.create(file);
         user.setImage(image);
 
         userRepository.save(user);
@@ -58,29 +58,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     ) throws MyException {
         validar(name, email, password, password2);
 
-        Optional<User> response = userRepository.findById(id);
-        if (response.isPresent()) {
+        User usuario = userRepository.findById(id).orElseThrow();
+        usuario.setName(name);
+        usuario.setEmail(email);
+        usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 
-            User usuario = response.get();
-            usuario.setName(name);
-            usuario.setEmail(email);
-
-            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-
-            usuario.setRole(Role.USER);
-
-            String idImage = null;
-
-            if (usuario.getImage() != null) {
-                idImage = usuario.getImage().getId();
-            }
-
-            Image image = imageServiceImpl.update(file, idImage);
-
-            usuario.setImage(image);
-
-            userRepository.save(usuario);
+        Image image;
+        if (usuario.getImage() != null) {
+            String idImage = usuario.getImage().getId();
+            image = imageService.update(file, idImage);
+        } else {
+            image = imageService.create(file);
         }
+        usuario.setImage(image);
+
+        userRepository.save(usuario);
     }
 
     @Override
