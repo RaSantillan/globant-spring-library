@@ -4,6 +4,7 @@ import com.exercises.library.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -36,6 +37,9 @@ public class SecurityConfig {
                             "/css/**","/js/**","/img/**","/","/registrar","/registro"
                     ).permitAll();
                     //We can give rights to admin class with pre-authorize but this is another approach.
+                    authz.requestMatchers(HttpMethod.POST).hasRole("ADMIN");
+                    authz.requestMatchers(HttpMethod.PUT).hasRole("ADMIN");
+                    authz.requestMatchers(HttpMethod.DELETE).hasRole("ADMIN");
                     authz.requestMatchers("/admin/*").hasRole("ADMIN");
                     authz.anyRequest().authenticated();
                 })
