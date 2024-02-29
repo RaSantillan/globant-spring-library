@@ -22,7 +22,7 @@
                     <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col" sec:authorize="hasRole('ADMIN')">Actions</th>
 
                     </tr>
                 </thead>
@@ -30,7 +30,7 @@
                     <tr>
                         <th scope="row" th:text="${editorial.id}"></th>
                         <td th:text="${editorial.name}"></td>
-                        <td>
+                        <td sec:authorize="hasRole('ADMIN')">
                             <a th:href= "@{/editorial/modificar/__${editorial.id}__}"><i class="fas fa-feather-alt">  </i> Modify </a>
                         </td>
 

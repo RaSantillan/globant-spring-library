@@ -24,7 +24,7 @@
                         <th scope="col">Ejemplares</th>
                         <th scope="col">Autor</th>
                         <th scope="col">Editorial</th>
-                        <th scope="col">Acciones</th>
+                        <th scope="col" sec:authorize="hasRole('ADMIN')">Acciones</th>
                         
                     </tr>
                 </thead>
@@ -35,7 +35,7 @@
                         <td th:text="${libro.stock}"></td>
                         <td th:text="${libro.author.name}"></td>
                         <td th:text="${libro.editorial.name}"></td>
-                         <td>
+                         <td sec:authorize="hasRole('ADMIN')">
                             <a th:href= "@{/libro/modificar/__${libro.ISBN}__}"><i class="fas fa-feather-alt"></i> Modify </a>
                         </td>
                     </tr>
