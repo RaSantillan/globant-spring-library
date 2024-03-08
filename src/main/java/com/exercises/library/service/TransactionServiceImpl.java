@@ -13,10 +13,14 @@ import java.util.List;
 @Service
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
+    private final BookService bookService;
+    private final UserService userService;
 
     @Autowired
-    public TransactionServiceImpl(TransactionRepository transactionRepository) {
+    public TransactionServiceImpl(TransactionRepository transactionRepository, BookService bookService, UserService userService) {
         this.transactionRepository = transactionRepository;
+        this.bookService = bookService;
+        this.userService = userService;
     }
 
     @Override
@@ -31,17 +35,22 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> getAll() {
-        return null;
+        return transactionRepository.findAll();
     }
 
     @Override
     public Transaction getById(Long id) {
-        return null;
+        return transactionRepository.findById(id).orElseThrow();
     }
 
     @Override
-    public Transaction update(Long id) {
-        return null;
+    public Transaction update(Long id, Long bookId, String userId, Boolean isDone, String comments) {
+        Transaction foundTransaction = getById(id);
+        foundTransaction.setBook(bookService.getBook(bookId));
+        foundTransaction.setUser(userService.getUserById(userId));
+        foundTransaction.setDone(isDone);
+        foundTransaction.setComments(comments);
+        return foundTransaction;
     }
 
     @Override
