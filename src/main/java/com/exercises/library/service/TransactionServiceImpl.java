@@ -55,11 +55,11 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void delete(Long id) {
-
+        transactionRepository.deleteById(id);
     }
 
     @Override
-    public List<Transaction> filterByParameter(Book book, User user, LocalDateTime dateTime, String comments) {
+    public List<Transaction> filterByParameter(Long bookId, String userId, Boolean isDone, String comments) {
         return null;
     }
 }

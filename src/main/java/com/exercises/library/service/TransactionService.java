@@ -13,5 +13,5 @@ public interface TransactionService {
     Transaction getById(Long id);
     Transaction update(Long id, Long bookId, String userId, Boolean isDone, String comments);
     void delete(Long id);
-    List<Transaction> filterByParameter(Book book, User user, LocalDateTime dateTime, String comments);
+    List<Transaction> filterByParameter(Long bookId, String userId, Boolean isDone, String comments);
 }
