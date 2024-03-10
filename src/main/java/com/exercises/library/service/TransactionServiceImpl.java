@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -55,11 +56,16 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void delete(Long id) {
-
+        transactionRepository.deleteById(id);
     }
 
     @Override
-    public List<Transaction> filterByParameter(Book book, User user, LocalDateTime dateTime, String comments) {
-        return null;
+    public List<Transaction> filterByParameter(Long bookId, String userId, Boolean isDone, String comments) {
+        return getAll().stream()
+                .filter(transaction -> (bookId == null || transaction.getBook().equals(bookService.getBook(bookId))))
+                .filter(transaction -> (userId == null || transaction.getUser().equals(userService.getUserById(userId))))
+                .filter(transaction -> (isDone == null || transaction.isDone() == isDone))
+                .filter(transaction -> (transaction.getComments().equals(comments)))
+                .collect(Collectors.toList());
     }
 }
